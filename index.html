@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>WebRTC: Simple P2P Communication for the Web</title>
+
+    <meta name="description" content="WebRTC: Simple P2P Communication for the Web">
+    <meta name="author" content="Jan Lelis">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <style>
+      #gum-video {
+        height: 1000px;
+        background: black;
+        box-shadow: 0px 0px 20px #333;
+      }
+      pre code {
+        font-size: 21pt;
+        line-height: 25pt;
+        background: #111;
+      }
+      pre .xml .javascript {
+        opacity: 1;
+        color: #fff;
+      }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="reveal">
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <section>
+            <h1>WebRTC</h1>
+              <h2>Simple P2P Communication for the Web</h2>
+            <br>
+            <p>JSUnconf EU 2014 / <a href="https://twitter.com/JanLelis">@JanLelis</a></p>
+          </section>
+
+          <section>
+            <h2>palava.tv</h2>
+            <h3>Browser-to-Browser Video</h3>
+            <img src="images/palava-logo.png" style="border: 0px; width: 250px" />
+            <p>Completely Open Source</p>
+            <p>Run by a Non-Profit</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>RTCWEB / IETF</h2>
+            <p>Enables P2P Connections between Browsers ...</p>
+            <p>... including Video/Audio Streams</p>
+            <p class="fragment">Adapts and existing VOIP Technologies</p>
+            <p class="fragment">Almost every major Player sits at the Table</p>
+          </section>
+
+          <section>
+            <h2>WebRTC / W3C</h2>
+            <p>JavaScript API for the RTCWEB</p>
+            <p class="fragment">Supported in Blink and Mozilla</p>
+          </section>
+
+          <section>
+            <h1>WebRTC</h1>
+            <p>Brings P2P/Real-time Communication to the Web!</p>
+            <p class="fragment">Supported in Blink and Mozilla</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Video Conferences?</h2>
+            <p>Pure WebRTC limited to Mesh Structure</p>
+            <p class="fragment">More with Multipoint Control Units / Selective Forwarding Units</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>JavaScript API</h2>
+            <img src="images/webrtc-components.png" />
+          </section>
+
+          <section>
+            <h2>JavaScript API: getUserMedia</h2>
+          </section>
+
+          <section>
+            <h3><code>getUserMedia</code></h3>
+            <pre><code data-trim contenteditable class="javascript">
+&lt;video id="gum-video" autoplay="autoplay"&gt;
+
+&lt;script&gt;
+  navigator.webkitGetUserMedia(
+    {video: true, audio: false},
+    function(stream) {
+      document.getElementById('gum-video').src =
+          webkitURL.createObjectURL(stream);
+    }
+  );
+&lt;/script&gt;
+            </code></pre>
+          </section>
+
+          <section data-state="gum-demo">
+            <video id="gum-video" autoplay="autoplay">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>P2P connection requirements</h2>
+            <p>Initialization is done using a Signaling "Rendevouz" Server</p>
+            <p class="fragment">Exchange of Streaming Properties (SDP)</p>
+            <p class="fragment">NAT Traversal via ICE: STUN/TURN Servers</p>
+          </section>
+        </section>
+
+        <section>
+        <section>
+            <h2>WebRTC Signaling Concept</h2>
+            <p>Developer implements how to establish a <code>PeerConnection</code></p>
+            <p class="fragment">Custom Protocols vs. XMPP</p>
+            <p class="fragment">WebSockets vs. XHR vs. Pidgeons</p>
+          </section>
+
+          <section>
+            <h3>External Signaling Channel</h3>
+            <img src="images/signaling-server.png">
+          </section>
+
+          <section>
+            <h3>Find Peers</h3>
+            <img src="images/join.png">
+          </section>
+
+          <section>
+            <h3>Exchange Media Capbilities</h3>
+            <img src="images/offer-answer.png">
+          </section>
+
+          <section>
+            <h3>"Hole Punching"</h3>
+            <img src="images/stun2.png">
+          </section>
+
+          <section>
+            <h3>Success!</h3>
+            <img src="images/peerconnection.png">
+          </section>
+
+          <section>
+            <h2>Example Signaling Servers</h2>
+            <p>palava-machine (ruby)</p>
+            <p>signalmaster (node.js)</p>
+            <p>webrtc.io (node.js)</p>
+            <p>together.js hub (node.js)</p>
+            <p>peerjs server (node.js)</p>
+            <br/><br/>
+
+            <h3 class="fragment">I am working on a service: <a href="http://signaling.io">signaling.io</a></h3>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Palava Machine Signaling Protocol</h2>
+            <p>A few defined JSON messages</p>
+          </section>
+
+          <section>
+            <h3>Client → Server</h3><br/>
+            <p><code>join_room(room_id, status)</code></p>
+            <p><code>send_to_peer(peer_id, data)</code></p>
+            <p><code>update_status(status)</code></p>
+          </section>
+
+          <section>
+            <h3>Server → Client</h3><br/>
+            <p><code>joined_room(me, peers)</code></p>
+            <p><code>peer_updated_status(peer_id, peer_status)</code></p>
+            <p><code>error(id, message)</code></p>
+            <p><code>shutdown(seconds)</code></p>
+          </section>
+
+          <section>
+            <h3>Client → Client</h3>
+            <h4>via <code>send_to_peer</code></h4><br/>
+            <p><code>offer(sdp)</code></p>
+            <p><code>answer(sdp)</code></p>
+            <p><code>ice_candidate(...)</code></p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>JavaScript API: PeerConnection</h2>
+          </section>
+          <section>
+            <h3>Prepare <code>PeerConnection</code></h3>
+            <pre><code data-trim contenteditable class="javascript">
+// already got localStream via getUserMedia
+
+var pc = new webkitRTCPeerConnection(
+    {iceServers: [{url: "stun:93.186.193.18"}]},
+    {optional: [{DtlsSrtpKeyAgreement: true}]}
+);
+
+pc.addStream(localStream);
+pc.onaddstream = function(event) {
+    console.log("adding remote stream");
+    $('#video-tag')[0].src =
+        webkitURL.createObjectURL(event.stream);
+};
+</code></pre>
+          </section>
+          <section>
+            <h3>Establish <code>PeerConnection</code></h3>
+            <pre><code data-trim contenteditable class="javascript">
+// connect to signaling provider
+var server = new WebSocket('wss:machine.palava.tv');
+// ...
+pc.createOffer(function(sdp) {
+  // register local sdp in our new connection
+  pc.setLocalDescription(sdp);
+  // send the "sdp" to other peer
+  server.send(JSON.stringify({peer_id: 42, event: 'offer', sdp: sdp}));
+  // ...
+            </code></pre>
+
+            <pre class="fragment"><code data-trim contenteditable class="javascript">
+// other peer receives 'offer' and sends an 'answer' via server
+server.onmessage = function(msg) {
+  payload = JSON.parse(msg.data);
+  if(payload.event === 'answer') {
+      pc.setRemoteDescription(
+          new RTCSessionDescription(payload.sdp)
+      );
+            </code></pre>
+
+            <pre class="fragment"><code data-trim contenteditable class="javascript">
+// exchange ice candidates... when finished:
+// pc.onaddstream callback will be called by WebRTC
+            </code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>WebRTC / Conclusion</h2>
+            <p>Allows for a new generation of real-time applications</p>
+            <p class="fragment">Provides a simple JavaScript APIs for doing so</p>
+            <div class="fragment">
+              <br/><p><strong>It is a standard:</strong></p>
+              <p>It is designed to be compatible with the rest of the world</p>
+            </div>
+          </section>
+
+          <section>
+            <h2>Thank you!</h2>
+            <p><a href="https://palava.tv">palava.tv</a></p>
+            <p><a href="http://signaling.io">signaling.io</a></p>
+            <p>slides: <a href="https://palavatv.github.com/talk-jsunconf-webrtc">palavatv.github.com/talk-jsunconf-webrtc</a></p>
+            <p>good resources: <a href="https://webrtchacks.com">webrtchacks.com</p>
+          </section>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme || 'beige', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'concave', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+    </script>
+  </body>
+</html>
